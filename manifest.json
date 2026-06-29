@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "JSON 格式化预览",
+  "description": "右键格式化选中的 JSON，并在独立页面中树形预览。",
+  "version": "1.0.0",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "clipboardWrite"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "JSON格式化",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "32": "assets/icons/icon-32.png",
+      "48": "assets/icons/icon-48.png",
+      "128": "assets/icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  }
+}

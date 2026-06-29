@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JSON格式化</title>
+    <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="formatter.css?v=20260609-3">
+  </head>
+  <body>
+    <header class="app-toolbar">
+      <div class="brand" aria-label="JSON格式化">
+        <img src="assets/icons/icon.svg" alt="" width="28" height="28">
+        <span>JSON格式化</span>
+      </div>
+
+      <div class="toolbar-spacer"></div>
+
+      <form class="search-bar" id="searchBar" role="search" hidden>
+        <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="搜索右侧 JSON" aria-label="搜索右侧 JSON">
+        <span class="search-count" id="searchCount">0/0</span>
+        <button class="icon-button tiny has-tooltip" id="prevMatchBtn" type="button" aria-label="上一个" data-tooltip="上一个">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>
+        </button>
+        <button class="icon-button tiny has-tooltip" id="nextMatchBtn" type="button" aria-label="下一个" data-tooltip="下一个">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <button class="icon-button tiny has-tooltip" id="closeSearchBtn" type="button" aria-label="关闭搜索" data-tooltip="关闭搜索">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </form>
+
+      <div class="toolbar-actions" aria-label="JSON 工具栏">
+        <button class="icon-button has-tooltip" id="expandAllBtn" type="button" aria-label="一键展开" data-tooltip="一键展开">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m7 6 5 5 5-5"/><path d="m7 13 5 5 5-5"/></svg>
+        </button>
+        <button class="icon-button has-tooltip" id="collapseAllBtn" type="button" aria-label="一键收起" data-tooltip="一键收起">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m17 18-5-5-5 5"/><path d="m17 11-5-5-5 5"/></svg>
+        </button>
+        <button class="icon-button has-tooltip" id="copyBtn" type="button" aria-label="复制格式化 JSON" data-tooltip="复制格式化 JSON">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        </button>
+        <button class="icon-button has-tooltip" id="minifyBtn" type="button" aria-label="压缩左侧 JSON" data-tooltip="压缩左侧 JSON">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" x2="21" y1="10" y2="3"/><line x1="3" x2="10" y1="21" y2="14"/></svg>
+        </button>
+      </div>
+
+      <label class="theme-switch has-tooltip" aria-label="切换主题" data-tooltip="切换主题" data-tooltip-align="end">
+        <input id="themeToggle" type="checkbox">
+        <span class="theme-slider">
+          <svg class="sun-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <svg class="moon-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.99 13.5A8.5 8.5 0 1 1 10.5 3.01 7 7 0 0 0 20.99 13.5Z"/></svg>
+          <span class="theme-knob"></span>
+        </span>
+      </label>
+    </header>
+
+    <main class="split-view">
+      <section class="pane source-pane" aria-label="原始 JSON">
+        <div class="pane-header">
+          <h1>原始 JSON</h1>
+          <span class="status-pill" id="parseStatus">等待输入</span>
+        </div>
+        <textarea id="rawInput" class="raw-input" spellcheck="false" placeholder="粘贴 JSON"></textarea>
+      </section>
+
+      <section class="pane preview-pane" aria-label="格式化 JSON">
+        <div class="pane-header">
+          <h2>格式化 JSON</h2>
+          <span class="status-pill muted" id="treeStatus">0 items</span>
+        </div>
+        <div id="jsonTree" class="json-tree" tabindex="0" aria-label="格式化 JSON 树"></div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="floating-tooltip" id="floatingTooltip" role="tooltip"></div>
+    <script src="formatter.js?v=20260609-3"></script>
+  </body>
+</html>
