@@ -425,6 +425,12 @@ input {
   background: transparent;
 }
 
+.status-pill.fixed {
+  border-color: color-mix(in srgb, var(--amber) 42%, var(--line));
+  color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 10%, var(--panel));
+}
+
 .status-pill.error {
   border-color: color-mix(in srgb, var(--rose) 42%, var(--line));
   color: var(--rose);

@@ -34,6 +34,7 @@
     parsed: null,
     formatted: "",
     parseError: null,
+    fixes: [],
     collapsedPaths: new Set(),
     searchExpandedPaths: new Set(),
     searchTerm: "",
@@ -244,19 +245,24 @@
       state.parsed = null;
       state.formatted = "";
       state.parseError = null;
+      state.fixes = [];
       updateStatus();
       updateToolbarState();
       return;
     }
 
-    try {
-      state.parsed = JSON.parse(raw);
-      state.formatted = JSON.stringify(state.parsed, null, 2);
-      state.parseError = null;
-    } catch (error) {
+    const result = JsonRepair.parse(raw);
+
+    if (result.error) {
       state.parsed = null;
       state.formatted = "";
-      state.parseError = error;
+      state.parseError = result.error;
+      state.fixes = [];
+    } else {
+      state.parsed = result.value;
+      state.formatted = JSON.stringify(state.parsed, null, 2);
+      state.parseError = null;
+      state.fixes = result.fixes;
     }
 
     updateStatus();
@@ -264,7 +270,8 @@
   }
 
   function updateStatus() {
-    elements.parseStatus.classList.remove("error", "muted");
+    elements.parseStatus.classList.remove("error", "muted", "fixed");
+    elements.parseStatus.removeAttribute("title");
 
     if (!elements.rawInput.value.trim()) {
       elements.parseStatus.textContent = "等待输入";
@@ -280,7 +287,15 @@
       return;
     }
 
-    elements.parseStatus.textContent = "有效 JSON";
+    if (state.fixes.length) {
+      const detail = state.fixes.join("、");
+      elements.parseStatus.textContent = `已自动修复：${detail}`;
+      elements.parseStatus.title = `右侧为自动修复后的 JSON（${detail}）`;
+      elements.parseStatus.classList.add("fixed");
+    } else {
+      elements.parseStatus.textContent = "有效 JSON";
+    }
+
     elements.treeStatus.textContent = `${countRootItems(state.parsed)} items`;
   }
 
